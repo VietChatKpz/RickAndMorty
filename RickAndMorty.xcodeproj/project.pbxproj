@@ -36,6 +36,7 @@
 		840F33222988CE1F00A1C689 /* RMCharacterDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F33212988CE1F00A1C689 /* RMCharacterDetailView.swift */; };
 		840F33242988CEAE00A1C689 /* RMCharacterDetailViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F33232988CEAE00A1C689 /* RMCharacterDetailViewViewModel.swift */; };
 		840F33262989003900A1C689 /* RMFooterLoadingCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F33252989003800A1C689 /* RMFooterLoadingCollectionReusableView.swift */; };
+		840F3328298A067900A1C689 /* RMImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F3327298A067900A1C689 /* RMImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		840F33212988CE1F00A1C689 /* RMCharacterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailView.swift; sourceTree = "<group>"; };
 		840F33232988CEAE00A1C689 /* RMCharacterDetailViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailViewViewModel.swift; sourceTree = "<group>"; };
 		840F33252989003800A1C689 /* RMFooterLoadingCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMFooterLoadingCollectionReusableView.swift; sourceTree = "<group>"; };
+		840F3327298A067900A1C689 /* RMImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMImageLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 		840F32F0298765A800A1C689 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				840F3327298A067900A1C689 /* RMImageLoader.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				840F32DD29875F3F00A1C689 /* RMTabViewController.swift in Sources */,
 				840F331B2988B31000A1C689 /* RMCharacterCollectionViewCell.swift in Sources */,
 				840F32FF298767B400A1C689 /* RMEpisodeViewController.swift in Sources */,
+				840F3328298A067900A1C689 /* RMImageLoader.swift in Sources */,
 				840F32D929875F3E00A1C689 /* AppDelegate.swift in Sources */,
 				840F32DB29875F3E00A1C689 /* SceneDelegate.swift in Sources */,
 				840F3301298767C100A1C689 /* RMSettingsViewController.swift in Sources */,
