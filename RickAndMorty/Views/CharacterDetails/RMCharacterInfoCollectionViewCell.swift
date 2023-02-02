@@ -45,6 +45,8 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .tertiarySystemBackground
         contentView.layer.cornerRadius = 8
         contentView.layer.masksToBounds = true
+        contentView.layer.borderWidth = 1.0
+        contentView.layer.borderColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.00).cgColor
         contentView.addSubview(titleContainerView, valueLabel, iconImageView)
         titleContainerView.addSubview(titleLabel)
         setUpConstraints()
