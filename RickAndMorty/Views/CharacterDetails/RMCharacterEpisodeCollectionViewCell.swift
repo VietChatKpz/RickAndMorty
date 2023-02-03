@@ -36,7 +36,6 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .tertiarySystemBackground
         contentView.layer.cornerRadius = 8
         contentView.layer.borderWidth = 2.0
-        contentView.layer.borderColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.00).cgColor
         contentView.addSubview(seasonLabel, nameLabel, airDateLabel)
         setUpConstraints()
     }
@@ -73,12 +72,11 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     
     public func configure(with viewModel: RMCharacterEpisodeCollectionViewCellViewModel) {
         viewModel.registerForData { [weak self] data in
-            DispatchQueue.main.async {
-                self?.nameLabel.text = data.name
-                self?.seasonLabel.text = "Episode "+data.episode
-                self?.airDateLabel.text = "Aired on "+data.air_date
-            }
+            self?.nameLabel.text = data.name
+            self?.seasonLabel.text = "Episode "+data.episode
+            self?.airDateLabel.text = "Aired on "+data.air_date
         }
         viewModel.fetchEpisode()
+        contentView.layer.borderColor = viewModel.borderColor.cgColor
     }
 }
