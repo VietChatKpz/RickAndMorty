@@ -25,7 +25,7 @@ class RMLocationView: UIView {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.alpha = 0
         table.isHidden = true
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(RMLocationTableViewCell.self, forCellReuseIdentifier: RMLocationTableViewCell.cellIndentifier)
         return table
     }()
     
@@ -43,10 +43,16 @@ class RMLocationView: UIView {
         addSubview(tableView, spinner)
         spinner.startAnimating()
         addConstaints()
+        configureTable()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    private func configureTable() {
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     private func addConstaints() {
@@ -66,5 +72,30 @@ class RMLocationView: UIView {
     public func configure(with viewModel: RMLocationViewViewModel) {
         
     }
+}
+
+extension RMLocationView: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.cellViewModels.count ?? 0
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cellViewModels = viewModel?.cellViewModels else {
+            fatalError()
+        }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RMLocationTableViewCell.cellIndentifier,
+            for: indexPath) as? RMLocationTableViewCell else {
+            fatalError()
+        }
+        let cellViewModel = cellViewModels[indexPath.row]
+        cell.textLabel?.text = cellViewModel.name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+    }
 }

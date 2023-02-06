@@ -20,6 +20,8 @@ final class RMLocationViewController: UIViewController {
         title = "Loctions"
         addSearchButton()
         addConstaints()
+        viewModel.delegate = self
+        viewModel.fetchLocations()
     }
     
     private func addConstaints() {
@@ -41,5 +43,11 @@ final class RMLocationViewController: UIViewController {
         let vc = RMSearchViewController(config: RMSearchViewController.Config(type: .location))
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension RMLocationViewController: RMLocationViewViewModelDelegate {
+    func didFetchInitialLocations() {
+        primaryView.configure(with: viewModel)
     }
 }
