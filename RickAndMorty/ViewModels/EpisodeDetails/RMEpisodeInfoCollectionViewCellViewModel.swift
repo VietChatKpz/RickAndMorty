@@ -8,9 +8,9 @@
 import Foundation
 
 final class RMEpisodeInfoCollectionViewCellViewModel {
-    private let title: String
+    public let title: String
     
-    private let value: String
+    public let value: String
     
     init(title: String, value: String) {
         self.title = title
