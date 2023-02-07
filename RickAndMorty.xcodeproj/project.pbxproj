@@ -71,6 +71,7 @@
 		84AFDCA42991F733000F594B /* RMNoSearchResultsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFDCA32991F733000F594B /* RMNoSearchResultsViewViewModel.swift */; };
 		84AFDCA62991F784000F594B /* RMSearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFDCA52991F784000F594B /* RMSearchInputView.swift */; };
 		84AFDCA82991F795000F594B /* RMSearchInputViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFDCA72991F795000F594B /* RMSearchInputViewViewModel.swift */; };
+		84FF3514299253A10050DFF8 /* RMSearchOptionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FF3513299253A10050DFF8 /* RMSearchOptionPickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,7 @@
 		84AFDCA32991F733000F594B /* RMNoSearchResultsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMNoSearchResultsViewViewModel.swift; sourceTree = "<group>"; };
 		84AFDCA52991F784000F594B /* RMSearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchInputView.swift; sourceTree = "<group>"; };
 		84AFDCA72991F795000F594B /* RMSearchInputViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchInputViewViewModel.swift; sourceTree = "<group>"; };
+		84FF3513299253A10050DFF8 /* RMSearchOptionPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchOptionPickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +310,7 @@
 				84AFDC60298BAC66000F594B /* RMEpisodeDetailViewController.swift */,
 				84AFDC6F298CBA9C000F594B /* RMSearchViewController.swift */,
 				84AFDC992991EFAE000F594B /* RMLocationDetailViewController.swift */,
+				84FF3513299253A10050DFF8 /* RMSearchOptionPickerViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -573,6 +576,7 @@
 				84AFDC61298BAC66000F594B /* RMEpisodeDetailViewController.swift in Sources */,
 				84AFDC67298BB583000F594B /* RMEpisodeDetailView.swift in Sources */,
 				84AFDC902990F889000F594B /* RMLocationTableViewCellViewModel.swift in Sources */,
+				84FF3514299253A10050DFF8 /* RMSearchOptionPickerViewController.swift in Sources */,
 				840F32F62987668000A1C689 /* RMCharacter.swift in Sources */,
 				84AFDC9A2991EFAE000F594B /* RMLocationDetailViewController.swift in Sources */,
 				840F331D2988B46500A1C689 /* RMCharacterCollectionViewCellViewModel.swift in Sources */,
