@@ -30,6 +30,10 @@ final class RMSearchView: UIView {
         addConstraints()
         searchInputView.configure(with: .init(type: viewModel.config.type))
         searchInputView.delegate = self
+        
+        viewModel.registerOptionChangeBlock { [weak self] tuple in
+            self?.searchInputView.update(option: tuple.0, value: tuple.1)
+        }
     }
     
     required init?(coder: NSCoder) {
