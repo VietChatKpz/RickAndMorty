@@ -13,6 +13,26 @@ final class RMSearchViewViewModel {
     private var optionMap: [RMSearchInputViewViewModel.DynamicOption: String] = [:]
     private var searchText = ""
     
+    private var apiInfo: RMGetAllCharactersResponse.Info?
+    private var characters: [RMCharacter] = [] {
+        didSet {
+            for character in characters {
+                let viewModel = RMCharacterCollectionViewCellViewModel(
+                    characterName: character.name,
+                    characterStatus: character.status,
+                    characterImageUrl: URL(string: character.image)
+                )
+                if !cellViewModels.contains(viewModel) {
+                    cellViewModels.append(viewModel)
+                }
+            }
+        }
+    }
+    
+    public weak var delegate: RMCharacterListViewViewModelDelegate?
+    
+    public var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
+    
     private var searchResultHandler: (() -> Void)?
     
     private var optionMapUpdateBlock: (((RMSearchInputViewViewModel.DynamicOption, String)) -> Void)?
@@ -39,11 +59,17 @@ final class RMSearchViewViewModel {
         let request = RMRequest(
             endpoint: config.type.endPoint,
             queryParameters: queryParams)
-
-        RMService.shared.execute(request, expecting: RMGetAllCharactersResponse.self) { result in
+        
+        RMService.shared.execute(request, expecting: RMGetAllCharactersResponse.self) { [weak self] result in
             switch result {
             case .success(let model):
-                print(String(describing: model.results.count))
+                let results = model.results
+                let info = model.info
+                self?.characters = results
+                self?.apiInfo = info
+                DispatchQueue.main.async {
+                    self?.delegate?.didLoadInitialCharacters()
+                }
             case .failure(let failure):
                 print(String(describing: failure))
             }

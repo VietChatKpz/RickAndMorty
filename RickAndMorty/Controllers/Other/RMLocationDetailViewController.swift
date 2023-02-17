@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RMLocationDetailViewController: UIViewController {
+final class RMLocationDetailViewController: UIViewController {
 
     private let viewModel: RMLocationDetailViewViewModel
     

@@ -19,15 +19,25 @@ final class RMSearchView: UIView {
     
     private let searchInputView = RMSearchInputView()
     
-    private let noSearchResult = RMNoSearchResultsView()
+    public let noSearchResult = RMNoSearchResultsView()
+    
+    public let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isHidden = true
+        collectionView.alpha = 0
+        return collectionView
+    }()
     
     init(frame: CGRect, viewModel: RMSearchViewViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
-        addSubview(noSearchResult, searchInputView)
-        addConstraints()
+        addSubview(noSearchResult, searchInputView, collectionView)
+        setUpView()
         searchInputView.configure(with: .init(type: viewModel.config.type))
         searchInputView.delegate = self
         
@@ -40,7 +50,7 @@ final class RMSearchView: UIView {
         fatalError("Unsupported")
     }
     
-    private func addConstraints() {
+    private func setUpView() {
         NSLayoutConstraint.activate([
             searchInputView.topAnchor.constraint(equalTo: topAnchor),
             searchInputView.leftAnchor.constraint(equalTo: leftAnchor),
@@ -50,8 +60,15 @@ final class RMSearchView: UIView {
             noSearchResult.widthAnchor.constraint(equalToConstant: 150),
             noSearchResult.heightAnchor.constraint(equalToConstant: 150),
             noSearchResult.centerXAnchor.constraint(equalTo: centerXAnchor),
-            noSearchResult.centerYAnchor.constraint(equalTo: centerYAnchor)
+            noSearchResult.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: searchInputView.bottomAnchor, constant: 5),
+            collectionView.leftAnchor.constraint(equalTo: leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: rightAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
     public func presentKeyboard() {
@@ -62,12 +79,13 @@ final class RMSearchView: UIView {
 
 extension RMSearchView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        
+        cell.backgroundColor = .secondaryLabel
+        cell.layer.cornerRadius = 6
         return cell
     }
     

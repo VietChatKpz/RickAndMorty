@@ -11,7 +11,7 @@ protocol RMLocationViewDelegate: AnyObject {
     func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation)
 }
 
-class RMLocationView: UIView {
+final class RMLocationView: UIView {
 
     public weak var delegate: RMLocationViewDelegate?
     

@@ -39,6 +39,7 @@ final class RMSearchInputView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(searchBar)
         addConstraints()
+        searchBar.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -138,5 +139,11 @@ final class RMSearchInputView: UIView {
                 ]
             ),
             for: .normal)
+    }
+}
+
+extension RMSearchInputView: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+
     }
 }
