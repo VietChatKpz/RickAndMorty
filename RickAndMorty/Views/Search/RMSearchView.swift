@@ -19,30 +19,27 @@ final class RMSearchView: UIView {
     
     private let searchInputView = RMSearchInputView()
     
-    public let noSearchResult = RMNoSearchResultsView()
+    private let noSearchResult = RMNoSearchResultsView()
     
-    public let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.isHidden = true
-        collectionView.alpha = 0
-        return collectionView
-    }()
+    private let resultsView = RMSearchResultView()
     
     init(frame: CGRect, viewModel: RMSearchViewViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
-        addSubview(noSearchResult, searchInputView, collectionView)
-        setUpView()
+        addSubview(resultsView, noSearchResult, searchInputView)
+        addConstraints()
         searchInputView.configure(with: .init(type: viewModel.config.type))
         searchInputView.delegate = self
         
         viewModel.registerOptionChangeBlock { [weak self] tuple in
             self?.searchInputView.update(option: tuple.0, value: tuple.1)
+        }
+        
+        viewModel.registerSearchResultHandler { [weak self] results in
+            guard let strongSelf = self else { return }
+            print("result-----\(results)")
         }
     }
     
@@ -50,25 +47,24 @@ final class RMSearchView: UIView {
         fatalError("Unsupported")
     }
     
-    private func setUpView() {
+    private func addConstraints() {
         NSLayoutConstraint.activate([
             searchInputView.topAnchor.constraint(equalTo: topAnchor),
             searchInputView.leftAnchor.constraint(equalTo: leftAnchor),
             searchInputView.rightAnchor.constraint(equalTo: rightAnchor),
             searchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 55 : 110),
             
+            resultsView.topAnchor.constraint(equalTo: searchInputView.bottomAnchor),
+            resultsView.leftAnchor.constraint(equalTo: leftAnchor),
+            resultsView.rightAnchor.constraint(equalTo: rightAnchor),
+            resultsView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             noSearchResult.widthAnchor.constraint(equalToConstant: 150),
             noSearchResult.heightAnchor.constraint(equalToConstant: 150),
             noSearchResult.centerXAnchor.constraint(equalTo: centerXAnchor),
-            noSearchResult.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            collectionView.topAnchor.constraint(equalTo: searchInputView.bottomAnchor, constant: 5),
-            collectionView.leftAnchor.constraint(equalTo: leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: rightAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            noSearchResult.centerYAnchor.constraint(equalTo: centerYAnchor)
+        
         ])
-        collectionView.delegate = self
-        collectionView.dataSource = self
     }
     
     public func presentKeyboard() {
@@ -84,8 +80,8 @@ extension RMSearchView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .secondaryLabel
-        cell.layer.cornerRadius = 6
+//        cell.backgroundColor = .secondaryLabel
+//        cell.layer.cornerRadius = 6
         return cell
     }
     
@@ -97,5 +93,13 @@ extension RMSearchView: UICollectionViewDelegate, UICollectionViewDataSource {
 extension RMSearchView: RMSearchInputViewDelegate {
     func rmSearchInputView(_ inputView: RMSearchInputView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption) {
         delegate?.rmSearchView(self, didSelectOption: option)
+    }
+    
+    func rmSearchInputView(_ inputView: RMSearchInputView, didChangeSearchText text: String) {
+        viewModel.set(query: text)
+    }
+    
+    func rmSearchInputViewDidTapSearchKeyboardButton(_ inputView: RMSearchInputView) {
+        viewModel.executeSearch()
     }
 }

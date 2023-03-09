@@ -74,11 +74,11 @@ final class RMSearchViewController: UIViewController {
     @objc
     private func didTapExecuteSearch() {
         viewModel.executeSearch()
-        searchView.noSearchResult.isHidden = true
-        searchView.collectionView.isHidden = false
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.searchView.collectionView.alpha = 1
-        }
+//        searchView.noSearchResult.isHidden = true
+//        searchView.collectionView.isHidden = false
+//        UIView.animate(withDuration: 0.3) { [weak self] in
+//            self?.searchView.collectionView.alpha = 1
+//        }
     }
     
     private func addConstaints() {
