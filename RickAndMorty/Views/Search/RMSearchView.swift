@@ -9,6 +9,7 @@ import UIKit
 
 protocol RMSearchViewDelegate: AnyObject {
     func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption)
+    func rmSearchView(_ searchView: RMSearchView, didSelectLocation location: RMLocation)
 }
 
 final class RMSearchView: UIView {
@@ -22,7 +23,7 @@ final class RMSearchView: UIView {
     private let noSearchResult = RMNoSearchResultsView()
     
     private let resultsView = RMSearchResultView()
-    
+        
     init(frame: CGRect, viewModel: RMSearchViewViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
@@ -33,14 +34,8 @@ final class RMSearchView: UIView {
         searchInputView.configure(with: .init(type: viewModel.config.type))
         searchInputView.delegate = self
         
-        viewModel.registerOptionChangeBlock { [weak self] tuple in
-            self?.searchInputView.update(option: tuple.0, value: tuple.1)
-        }
-        
-        viewModel.registerSearchResultHandler { [weak self] results in
-            guard let strongSelf = self else { return }
-            print("result-----\(results)")
-        }
+        setUpHandlers(viewModel: viewModel)
+        resultsView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -67,6 +62,28 @@ final class RMSearchView: UIView {
         ])
     }
     
+    private func setUpHandlers(viewModel: RMSearchViewViewModel) {
+        viewModel.registerOptionChangeBlock { [weak self] tuple in
+            self?.searchInputView.update(option: tuple.0, value: tuple.1)
+        }
+        
+        viewModel.registerSearchResultHandler { [weak self] results in
+            DispatchQueue.main.async {
+                self?.resultsView.configure(with: results)
+                self?.noSearchResult.isHidden = true
+                self?.resultsView.isHidden = false
+            }
+            
+        }
+        
+        viewModel.registernoResultsHandler { [weak self] in
+            DispatchQueue.main.async {
+                self?.noSearchResult.isHidden = false
+                self?.resultsView.isHidden = true
+            }
+        }
+    }
+    
     public func presentKeyboard() {
         searchInputView.presentKeyboard()
     }
@@ -75,13 +92,11 @@ final class RMSearchView: UIView {
 
 extension RMSearchView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-//        cell.backgroundColor = .secondaryLabel
-//        cell.layer.cornerRadius = 6
         return cell
     }
     
@@ -101,5 +116,14 @@ extension RMSearchView: RMSearchInputViewDelegate {
     
     func rmSearchInputViewDidTapSearchKeyboardButton(_ inputView: RMSearchInputView) {
         viewModel.executeSearch()
+    }
+}
+
+extension RMSearchView: RMSearchResultViewDelegate {
+    func rmSearchResultView(_ resultsView: RMSearchResultView, didTapLocationAt index: Int) {
+        guard let locationModel = viewModel.locationSearchResult(at: index) else {
+            return
+        }
+        delegate?.rmSearchView(self, didSelectLocation: locationModel)
     }
 }

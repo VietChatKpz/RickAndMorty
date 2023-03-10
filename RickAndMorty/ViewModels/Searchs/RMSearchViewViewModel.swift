@@ -15,7 +15,11 @@ final class RMSearchViewViewModel {
     
     private var searchResultHandler: ((RMSearchResultViewModel) -> Void)?
     
+    private var noResultsHandler: (() -> Void)?
+    
     private var optionMapUpdateBlock: (((RMSearchInputViewViewModel.DynamicOption, String)) -> Void)?
+    
+    private var searchResultModel: Codable?
     
     init(config: RMSearchViewController.Config) {
         self.config = config
@@ -23,6 +27,10 @@ final class RMSearchViewViewModel {
     
     public func registerSearchResultHandler(_ block: @escaping (RMSearchResultViewModel) -> Void) {
         self.searchResultHandler = block
+    }
+    
+    public func registernoResultsHandler(_ block: @escaping () -> Void) {
+        self.noResultsHandler = block
     }
         
     public func executeSearch() {
@@ -53,8 +61,8 @@ final class RMSearchViewViewModel {
             switch result {
             case .success(let model):
                 self?.processSearchResults(model: model)
-            case .failure(let failure):
-                print(String(describing: failure))
+            case .failure:
+                self?.handleNoResults()
             }
         }
     }
@@ -81,6 +89,7 @@ final class RMSearchViewViewModel {
         }
         
         if let result = resultsVM {
+            self.searchResultModel = model
             self.searchResultHandler?(result)
         }else{
             handleNoResults()
@@ -88,7 +97,7 @@ final class RMSearchViewViewModel {
     }
     
     private func handleNoResults() {
-        
+        noResultsHandler?()
     }
     
     public func set(query text: String) {
@@ -103,5 +112,12 @@ final class RMSearchViewViewModel {
     
     public func registerOptionChangeBlock(_ block: @escaping ((RMSearchInputViewViewModel.DynamicOption, String)) -> Void) {
         self.optionMapUpdateBlock = block
+    }
+    
+    public func locationSearchResult(at index: Int) -> RMLocation? {
+        guard let searchModel = searchResultModel as? RMGetAllLocationsResponse else {
+            return nil
+        }
+        return searchModel.results[index]
     }
 }
