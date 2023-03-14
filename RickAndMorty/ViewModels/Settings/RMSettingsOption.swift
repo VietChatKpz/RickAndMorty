@@ -16,6 +16,7 @@ enum RMSettingsOption: CaseIterable {
     case apiReference
     case viewSeries
     case viewCode
+    case logOut
     
     var targetUrl: URL? {
         switch self {
@@ -32,7 +33,9 @@ enum RMSettingsOption: CaseIterable {
         case .viewSeries:
             return URL(string: "https://www.google.com")
         case .viewCode:
-            return URL(string: "https://www.google.com")
+            return URL(string: "https://chat.openai.com/chat")
+        case .logOut:
+            return URL(string: "https://www.youtube.com/watch?v=6-LmZLjS5WI")
         }
     }
     
@@ -52,6 +55,8 @@ enum RMSettingsOption: CaseIterable {
             return "View Video Series"
         case .viewCode:
             return "View App Code"
+        case .logOut:
+            return "Log Out"
         }
     }
     
@@ -71,6 +76,8 @@ enum RMSettingsOption: CaseIterable {
             return .systemPink
         case .viewCode:
             return .systemGray
+        case .logOut:
+            return .systemGray3
         }
     }
     
@@ -90,6 +97,8 @@ enum RMSettingsOption: CaseIterable {
             return UIImage(systemName: "tv.fill")
         case .viewCode:
             return UIImage(systemName: "hammer.fill")
+        case .logOut:
+            return UIImage(systemName: "escape")
         }
     }
 }

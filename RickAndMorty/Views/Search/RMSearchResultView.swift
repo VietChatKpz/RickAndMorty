@@ -9,6 +9,8 @@ import UIKit
 
 protocol RMSearchResultViewDelegate: AnyObject {
     func rmSearchResultView(_ resultsView: RMSearchResultView, didTapLocationAt index: Int)
+    func rmSearchResultView(_ resultsView: RMSearchResultView, didTapCharacterAt index: Int)
+    func rmSearchResultView(_ resultsView: RMSearchResultView, didTapEpisodeAt index: Int)
 }
 
 final class RMSearchResultView: UIView {
@@ -162,6 +164,11 @@ extension RMSearchResultView: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        let currentViewModel = collectionViewCellViewModels[indexPath.row]
+        if currentViewModel is RMCharacterCollectionViewCellViewModel {
+            delegate?.rmSearchResultView(self, didTapCharacterAt: indexPath.row)
+        }
+        delegate?.rmSearchResultView(self, didTapEpisodeAt: indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

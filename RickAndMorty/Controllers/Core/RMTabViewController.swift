@@ -11,7 +11,17 @@ final class RMTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(handeDismissNotification), name: NSNotification.Name(rawValue: "RMTabBarController"), object: nil)
         setUpTabs()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc
+    private func handeDismissNotification() {
+        dismiss(animated: true)
     }
 
     private func setUpTabs() {

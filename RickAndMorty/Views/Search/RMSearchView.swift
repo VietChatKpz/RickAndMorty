@@ -10,6 +10,8 @@ import UIKit
 protocol RMSearchViewDelegate: AnyObject {
     func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption)
     func rmSearchView(_ searchView: RMSearchView, didSelectLocation location: RMLocation)
+    func rmSearchView(_ searchView: RMSearchView, didSelectCharacter character: RMCharacter)
+    func rmSearchView(_ searchView: RMSearchView, didSelectEpisode episode: RMEpisode)
 }
 
 final class RMSearchView: UIView {
@@ -47,9 +49,9 @@ final class RMSearchView: UIView {
             searchInputView.topAnchor.constraint(equalTo: topAnchor),
             searchInputView.leftAnchor.constraint(equalTo: leftAnchor),
             searchInputView.rightAnchor.constraint(equalTo: rightAnchor),
-            searchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 55 : 110),
+            searchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 70 : 110),
             
-            resultsView.topAnchor.constraint(equalTo: searchInputView.bottomAnchor),
+            resultsView.topAnchor.constraint(equalTo: searchInputView.bottomAnchor),// constant: viewModel.config.type == .episode ? 12 : 0),
             resultsView.leftAnchor.constraint(equalTo: leftAnchor),
             resultsView.rightAnchor.constraint(equalTo: rightAnchor),
             resultsView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -125,5 +127,19 @@ extension RMSearchView: RMSearchResultViewDelegate {
             return
         }
         delegate?.rmSearchView(self, didSelectLocation: locationModel)
+    }
+    
+    func rmSearchResultView(_ resultsView: RMSearchResultView, didTapCharacterAt index: Int) {
+        guard let characterModel = viewModel.characterSearchResult(at: index) else {
+            return
+        }
+        delegate?.rmSearchView(self, didSelectCharacter: characterModel)
+    }
+    
+    func rmSearchResultView(_ resultsView: RMSearchResultView, didTapEpisodeAt index: Int) {
+        guard let episodeModel = viewModel.episodeSearchResult(at: index) else {
+            return
+        }
+        delegate?.rmSearchView(self, didSelectEpisode: episodeModel)
     }
 }

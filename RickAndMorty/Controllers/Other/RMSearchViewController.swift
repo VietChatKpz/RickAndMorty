@@ -74,11 +74,6 @@ final class RMSearchViewController: UIViewController {
     @objc
     private func didTapExecuteSearch() {
         viewModel.executeSearch()
-//        searchView.noSearchResult.isHidden = true
-//        searchView.collectionView.isHidden = false
-//        UIView.animate(withDuration: 0.3) { [weak self] in
-//            self?.searchView.collectionView.alpha = 1
-//        }
     }
     
     private func addConstaints() {
@@ -106,5 +101,18 @@ extension RMSearchViewController: RMSearchViewDelegate {
     func rmSearchView(_ searchView: RMSearchView, didSelectLocation location: RMLocation) {
         let vc = RMLocationDetailViewController(location: location)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func rmSearchView(_ searchView: RMSearchView, didSelectCharacter character: RMCharacter) {
+        let vc = RMCharacterDetailViewController(viewModel: .init(character: character))
+        vc.title = character.name
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func rmSearchView(_ searchView: RMSearchView, didSelectEpisode episode: RMEpisode) {
+        let detailVC = RMEpisodeDetailViewController(url: URL(string: episode.url))
+        detailVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

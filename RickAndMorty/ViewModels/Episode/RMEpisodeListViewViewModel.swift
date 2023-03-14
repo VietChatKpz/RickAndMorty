@@ -106,7 +106,7 @@ final class RMEpisodeListViewViewModel: NSObject{
                     }
                 case .failure(let failure):
                     print(String(describing: failure))
-                    self?.isLoadingMoreCharacters = false
+                    strongSelf.isLoadingMoreCharacters = false
                 }
             }
     }
